@@ -1,0 +1,6 @@
+{
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editor.pinnedTabsOnSeparateRow": true,
+    "workbench.editor.wrapTabs": true
+}

@@ -44,14 +44,6 @@ function loadStudentData() {
   }
 }
 
-// Initial load
-loadStudentData();
-
-// Set up periodic checking for Excel file changes
-setInterval(loadStudentData, updateInterval);
-
-// ... rest of your server.js code ...
-
 async function fetchLeaderboard() {
   try {
     const response = await axios.get(url);
@@ -79,13 +71,14 @@ async function fetchLeaderboard() {
   }
 }
 
-// Initial fetch
+// Initial load and fetch
+loadStudentData();
 fetchLeaderboard();
 
-// Set up periodic fetching
+// Set up periodic checking for Excel file changes and leaderboard updates
+setInterval(loadStudentData, updateInterval);
 setInterval(fetchLeaderboard, updateInterval);
 
-// Make sure this route is present and working correctly
 app.get('/api/leaderboard', async (req, res) => {
   if (!leaderboardCache || (new Date().getTime() - leaderboardCache.timestamp > cacheExpirationTime)) {
     await fetchLeaderboard();

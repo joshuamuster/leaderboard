@@ -3,56 +3,92 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background-image: url(images/wallpaper-paper-2-min.jpg); */
+  background-color:rgba(0, 255, 0, 0.15);
+  background-size: cover;
+  background-repeat: repeat;
+  margin: 0;
+  padding: 20px;
 }
 
-#leaderboard {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
+.framed {
+  background-image: url(images/jungle-02-min.png);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
 }
 
-.leaderbox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.content-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+#leaderboard-container {
+  width: 350px;
+  background-image: url(images/wood-repeating.jpg);
+  background-repeat: repeat;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 40px;
 }
 
 .leaderboard-entry {
+  background-color: #f8f9fa;
+  border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  border-radius: 10px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
 }
 
-.student-rank {
+.leaderboard-entry:hover {
+  background-color: #e9ecef;
+}
+
+.rank {
   font-weight: bold;
-  margin-right: 10px;
-  width: 20px;
+  margin-right: 15px;
+  width: 30px;
+  text-align: center;
+  color: #6c757d;
 }
 
-.student-name {
+.name {
   flex-grow: 1;
-  justify-content: flex-start;
-  flex-direction: row;
-  display: flex;
-}
-
-.first-name {
+  font-size: large;
   font-weight: bold;
   color: #007bff;
-  margin-right: 8px;
 }
 
-.last-name {
+.points {
   font-weight: bold;
   color: #28a745;
+  min-width: 60px;
+  text-align: right;
 }
 
-.student-points {
-  color: #dc3545;
-  font-weight: bold;
+@media (max-width: 600px) {
+  .content-container {
+    width: 95%;
+  }
+
+  #leaderboard-container {
+    padding: 10px;
+  }
+
+  .leaderboard-entry {
+    padding: 10px;
+  }
 }
