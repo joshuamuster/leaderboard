@@ -1,37 +1,39 @@
 console.log('main.js loaded');
 
 function createLeaderboardEntry(item, index) {
-  const entryDiv = document.createElement('div');
-  entryDiv.className = 'leaderboard-entry';
+  const entry = document.createElement('div');
+  entry.className = 'leaderboard-entry';
 
-  const rankSpan = document.createElement('span');
-  rankSpan.className = 'student-rank';
-  rankSpan.textContent = `${index + 1}.`;
+  const rank = document.createElement('span');
+  rank.className = 'student-rank';
+  rank.textContent = `${index + 1}.`;
 
-  const nameSpan = document.createElement('span');
-  nameSpan.className = 'student-name';
-  
-  // Split the full name into an array of words
+  const nameContainer = document.createElement('div');
+  nameContainer.className = 'student-name';
+
   const nameParts = item.name.split(' ');
-  
-  // Assume the last word is the last name, and everything else is the first name
-  const lastName = nameParts.pop();
-  const firstName = nameParts.join(' ');
-  
-  nameSpan.innerHTML = `
-    <span class="first-name">${firstName}</span> 
-    <span class="last-name">${lastName}</span>
-  `;
+  const firstName = document.createElement('span');
+  firstName.className = 'first-name';
+  firstName.textContent = nameParts[0]; // Always treat the first part as the first name
 
-  const pointsSpan = document.createElement('span');
-  pointsSpan.className = 'student-points';
-  pointsSpan.textContent = `${item.points} points`;
+  nameContainer.appendChild(firstName);
 
-  entryDiv.appendChild(rankSpan);
-  entryDiv.appendChild(nameSpan);
-  entryDiv.appendChild(pointsSpan);
+  if (nameParts.length > 1) {
+    const lastName = document.createElement('span');
+    lastName.className = 'last-name';
+    lastName.textContent = nameParts.slice(1).join(' '); // Join all remaining parts as the last name
+    nameContainer.appendChild(lastName);
+  }
 
-  return entryDiv;
+  const points = document.createElement('span');
+  points.className = 'student-points';
+  points.textContent = item.points;
+
+  entry.appendChild(rank);
+  entry.appendChild(nameContainer);
+  entry.appendChild(points);
+
+  return entry;
 }
 
 function displayLeaderboard(students) {

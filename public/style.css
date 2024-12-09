@@ -8,7 +8,7 @@ body {
 #leaderboard {
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 300px;
 }
 
 .leaderbox {
@@ -25,20 +25,26 @@ body {
   padding: 10px;
   background-color: #f8f9fa;
   border-radius: 5px;
+  border-radius: 10px;
 }
 
 .student-rank {
   font-weight: bold;
   margin-right: 10px;
+  width: 20px;
 }
 
 .student-name {
   flex-grow: 1;
+  justify-content: flex-start;
+  flex-direction: row;
+  display: flex;
 }
 
 .first-name {
   font-weight: bold;
   color: #007bff;
+  margin-right: 8px;
 }
 
 .last-name {
