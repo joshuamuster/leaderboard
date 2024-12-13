@@ -1,26 +1,41 @@
+:root {
+  --jungle-yellow: #FFEE00;
+  --jungle-red: #BB002D;
+  --jungle-green: #438F00;
+  --jungle-blue: #0080FF;
+  --jungle-purple: #9000FF;
+  --jungle-orange: #FBB603;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-image: url(images/wallpaper-paper-2-min.jpg); */
   background-color:rgba(0, 255, 0, 0.15);
   background-size: cover;
   background-repeat: repeat;
-  margin: 0;
-  padding: 20px;
 }
 
 .framed {
-  background-image: url(images/jungle-02-min.png);
-  position: fixed;
-  top: 0;
-  left: 0;
+  background-image: url(/images/BelgraviaWallpaper-min.jpg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   width: 100%;
-  height: 100%;
-  z-index: -1;
   background-size: cover;
   background-position: center;
+  padding: 20px;
+  overflow: auto;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -35,7 +50,7 @@ h1 {
 
 #leaderboard-container {
   width: 350px;
-  background-image: url(images/wood-repeating.jpg);
+  background: rgba(255,255,255,0.5);
   background-repeat: repeat;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -44,7 +59,7 @@ h1 {
 
 .leaderboard-entry {
   background-color: #f8f9fa;
-  border-radius: 5px;
+  border-radius: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
