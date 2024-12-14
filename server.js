@@ -1,17 +1,17 @@
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const xlsx = require('xlsx');
 const fs = require('fs');
+const { parse } = require('csv-parse/sync');
 const app = express();
 const port = 3000;
 
 const url = 'https://5starstudents.com/COMPUTECHMIDDLESCHOOL';
-const excelFile = 'students.xlsx';
+const csvFile = 'students.csv';
 
 const cacheExpirationTime = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-let idToNameMap = {};
+let idToStudentMap = {};
 let leaderboardCache = null;
 const updateInterval = 5 * 60 * 1000; // 5 minutes
 
@@ -19,25 +19,31 @@ let lastModified = 0;
 
 function loadStudentData() {
   try {
-    const stats = fs.statSync(excelFile);
+    const stats = fs.statSync(csvFile);
     const currentModified = stats.mtimeMs;
 
     if (currentModified > lastModified) {
-      const workbook = xlsx.readFile(excelFile);
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const students = xlsx.utils.sheet_to_json(sheet);
+      const fileContent = fs.readFileSync(csvFile, 'utf8');
+      const students = parse(fileContent, {
+        columns: true,
+        skip_empty_lines: true
+      });
 
-      idToNameMap = {};
+      idToStudentMap = {};
       students.forEach(student => {
         const firstName = student['First Name'] || '';
         const lastName = student['Last Name'] || '';
-        idToNameMap[student['Student ID']] = `${firstName} ${lastName}`.trim();
+        const house = student['House'] || 'N/A';
+        idToStudentMap[student['Student ID']] = {
+          name: `${firstName} ${lastName}`.trim(),
+          house: house
+        };
       });
 
       lastModified = currentModified;
       console.log('Student data reloaded');
     } else {
-      console.log('Excel file not modified, skipping reload');
+      console.log('CSV file not modified, skipping reload');
     }
   } catch (error) {
     console.error('Error loading student data:', error);
@@ -56,8 +62,12 @@ async function fetchLeaderboard() {
       const points = $(element).find('td:nth-child(2)').text().trim();
 
       if (id && points) {
-        const name = idToNameMap[id] || 'Unknown Student';
-        leaderboard.push({ name, points });
+        const studentInfo = idToStudentMap[id] || { name: 'Unknown Student', house: 'N/A' };
+        leaderboard.push({ 
+          name: studentInfo.name, 
+          house: studentInfo.house, 
+          points 
+        });
       }
     });
 
@@ -75,7 +85,7 @@ async function fetchLeaderboard() {
 loadStudentData();
 fetchLeaderboard();
 
-// Set up periodic checking for Excel file changes and leaderboard updates
+// Set up periodic checking for CSV file changes and leaderboard updates
 setInterval(loadStudentData, updateInterval);
 setInterval(fetchLeaderboard, updateInterval);
 
